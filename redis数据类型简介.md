@@ -53,4 +53,22 @@ OK
 
 ```
 
+虽然string是最基本的类型，但是我们仍然可以执行一些有趣的操作。比如递增，递减。
+
+incr、decr、decrby、incrby命令，都是原子性的，也就是多个客户端同时发出递增或者递减命令时，不会进入竞速
+
+```js
+
+127.0.0.1:6379> set user:qtc:likes 10 xx
+OK
+127.0.0.1:6379> incr user:qtc:likes
+(integer) 11
+127.0.0.1:6379> incrby user:qtc:likes 50
+(integer) 61
+127.0.0.1:6379> decr user:qtc:likes
+(integer) 60
+
+```
+
+
 
