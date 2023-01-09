@@ -33,4 +33,23 @@ OK
 "a-b-c-d"
 ```
 
+Set命令有一些有趣的参数，比如 nx、xx。
+
+nx代表如果当前key存在，那么我希望写入失败。
+xx代表如果当前key存在，那么我希望覆盖写入成功。
+
+默认情况下，Set命令执行的是xx，也就是覆盖。
+
+```js
+127.0.0.1:6379> get user:qtc:likes
+"a-b-c-d"
+127.0.0.1:6379> set user:qtc:likes e-f-g
+OK
+127.0.0.1:6379> set user:qtc:likes 123456 nx
+(nil)
+127.0.0.1:6379> set user:qtc:likes 123456 xx
+OK
+
+```
+
 
