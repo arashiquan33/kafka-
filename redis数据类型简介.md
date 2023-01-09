@@ -70,5 +70,24 @@ OK
 
 ```
 
+mset/mget可用于写入和读取多个string，mget返回的是string数组，集群模式下，mset如果不做处理会报错
+
+```js
+
+127.0.0.1:6379> mset qtc 10 cp 11 zx 12
+(error) CROSSSLOT Keys in request don't hash to the same slot
+
+```
+
+因为redis集群模式下slot槽位的原因，不同的key无法一次命令写入不同的槽位，如果要写入，必须让key位于同一个槽位。
+
+redis的hashtag的语法 {xxx},多个key必须拥有相同的{xxx}
+
+```js
+
+
+```
+
+
 
 
