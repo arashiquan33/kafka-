@@ -13,17 +13,24 @@ select命令可以切换redis数据库，redis单实例默认16个数据库，�
 127.0.0.1:6379> select 1
 ```
 
-# Strings
+# String
 
 value 为字符串类型是最基本的类型，一个value不能超过512mb.
 
 ```js
 127.0.0.1:6379> set key value [EX seconds|PX milliseconds|EXAT timestamp|PXAT milliseconds-timestamp|KEEPTTL] [NX|XX] [GET]
 ```
-设置一个简单的key user:qtc:likes,value为a-b-c-d
+
+使用Set、Get设置和获取一个简单的key user:qtc:likes,value为a-b-c-d
 
 ```js
 127.0.0.1:6379> set user:qtc:likes a-b-c-d
 OK
 ```
+
+```js
+127.0.0.1:6379> get user:qtc:likes
+"a-b-c-d"
+```
+
 
