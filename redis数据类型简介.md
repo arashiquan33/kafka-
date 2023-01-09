@@ -85,9 +85,32 @@ redis的hashtag的语法 {xxx},多个key必须拥有相同的{xxx}
 
 ```js
 
+127.0.0.1:6379> mset {test}1 z {test}2 b
+(error) MOVED 6918 172.21.75.170:6379
 
 ```
 
+报错，Moved，查了下资料，redis集群客户端连接时，必须指定 -c 参数
+
+```js
+
+[root@server-169 ~]# redis-cli -c -a Hollysys
+Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
+127.0.0.1:6379>
+
+```
+
+再次执行mset
+
+```js
+
+127.0.0.1:6379> mset {t}a 1 {t}b 2
+-> Redirected to slot [15891] located at 172.21.75.169:6380
+OK
+
+```
+
+可以看到 {t}a {t}b被分配到槽位15891
 
 
 
