@@ -113,4 +113,57 @@ OK
 可以看到 {t}a {t}b被分配到槽位15891
 
 
+# Altering and querying the key space
 
+还有一些命令与具体的数据类型无关，比如exists、del、type
+
+```js
+
+172.21.75.169:6380> set abc 123
+-> Redirected to slot [7638] located at 172.21.75.170:6379
+OK
+172.21.75.170:6379> EXISTS abc
+(integer) 1
+172.21.75.170:6379> del abc
+(integer) 1
+172.21.75.170:6379> del abc
+(integer) 0
+172.21.75.170:6379> EXISTS abc
+(integer) 0
+172.21.75.170:6379> type abc
+none
+172.21.75.170:6379> set abc 123
+OK
+172.21.75.170:6379> type abc
+string
+
+```
+
+# key expriation
+
+time to live 也就是ttl，可以设置key的过期时间，可以set的时候设置，也可以通过expire命令设置。ttl命令可查看还有多久过期，时间单位默认是秒
+
+```js
+
+172.21.75.170:6379> set abc 123 ex 5
+OK
+172.21.75.170:6379> ttl abc
+(integer) 1
+172.21.75.170:6379> ttl abc
+(integer) -2
+
+
+```
+
+```js
+
+172.21.75.170:6379> set abc 456
+OK
+172.21.75.170:6379> expire abc 10
+(integer) 1
+172.21.75.170:6379> ttl abc
+(integer) 5
+172.21.75.170:6379> ttl abc
+(integer) 1
+
+```
