@@ -261,3 +261,33 @@ lists支撑阻塞形式的，brpop,blpop可设置阻塞时间
 # Hashes
 
 
+哈希类似于java里面的Map，比较简单，下面是一些命令的使用：
+
+```js
+
+172.21.75.169:6379> hset user:qtc age 20 sex man height 168
+(integer) 3
+172.21.75.169:6379> hget user:qtc age
+"20"
+172.21.75.169:6379> hget user:qtc age sex
+(error) ERR wrong number of arguments for 'hget' command
+172.21.75.169:6379> hmget user:qtc age height
+1) "20"
+2) "168"
+172.21.75.169:6379> hgetall user:qtc
+1) "age"
+2) "20"
+3) "sex"
+4) "man"
+5) "height"
+6) "168"
+172.21.75.169:6379> hlen user:qtc
+(integer) 3
+172.21.75.169:6379> HVALS user:Qtc
+(empty array)
+172.21.75.169:6379> HVALS user:qtc
+1) "20"
+2) "man"
+3) "168"
+
+```
