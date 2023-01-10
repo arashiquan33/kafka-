@@ -167,3 +167,97 @@ OK
 (integer) 1
 
 ```
+
+## Lists
+
+Lists底层是LinkedLists链表，所以增、删速度很快，并且不受List元素长度影响
+
+lpush从头插入，rpush从尾部插入，lrange列出指定索引的元素
+
+```js
+
+172.21.75.170:6379> RPUSH mylist A
+-> Redirected to slot [5282] located at 172.21.75.169:6379
+(integer) 1
+172.21.75.169:6379> lpush mylist B
+(integer) 2
+172.21.75.169:6379> lpush mylist 2
+(integer) 3
+172.21.75.169:6379> lrang mylist 0 -1
+(error) ERR unknown command `lrang`, with args beginning with: `mylist`, `0`, `-1`,
+172.21.75.169:6379> lrange mylist 0 -1
+1) "2"
+2) "B"
+3) "A"
+
+```
+
+ltrim可以保证lists里面的元素固定个数，每次插入后，执行ltrim即可。
+
+```js
+
+172.21.75.169:6379> lpush mylist 4 5 6
+(integer) 6
+172.21.75.169:6379> lrange mylist 0 -1
+1) "6"
+2) "5"
+3) "4"
+4) "2"
+5) "B"
+6) "A"
+172.21.75.169:6379> ltrim mylist 0 2
+OK
+172.21.75.169:6379> lrange mylist 0 -1
+1) "6"
+2) "5"
+3) "4"
+
+```
+
+rpop、lpop分别从后或者前从list取出元素并且删除元素，当没有元素时，返回nil
+
+```js
+172.21.75.169:6379> RPOP mylist
+"4"
+172.21.75.169:6379> rpop mylist
+"5"
+172.21.75.169:6379> rpop mylist
+"6"
+172.21.75.169:6379> rpop mylist
+(nil)
+172.21.75.169:6379> rpop mylist
+(nil)
+```
+
+lists支撑阻塞形式的，brpop,blpop可设置阻塞时间
+
+一个客户端连接redis，执行brpop阻塞式从后面获取元素直到有元素进入
+
+```js
+172.21.75.169:6379> brpop mylist 0
+
+
+```
+
+此时已经发生阻塞，我们再打开一个客户端连接，向mylist添加元素
+
+```js
+127.0.0.1:6379> lpush mylist a
+(integer) 1
+
+```
+
+再看看刚才那个客户端发生了什么，数据已经回来了，返回了key和元素，还包含了时间
+
+```js
+172.21.75.169:6379> brpop mylist 0
+
+1) "mylist"
+2) "a"
+(63.86s)
+
+```
+
+# Hashes
+
+
